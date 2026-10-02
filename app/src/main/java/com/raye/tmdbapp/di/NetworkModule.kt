@@ -1,6 +1,7 @@
 package com.raye.tmdbapp.di
 
 import com.raye.tmdbapp.BuildConfig
+import com.raye.tmdbapp.data.remote.api.TmdbApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -49,7 +50,6 @@ object NetworkModule {
                 .build()
             chain.proceed(newRequest)
         }
-
         return OkHttpClient.Builder()
             .addInterceptor(authInterceptor)
             .addInterceptor(loggingInterceptor)
@@ -66,5 +66,11 @@ object NetworkModule {
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideTmdbApiService(retrofit: Retrofit): TmdbApiService {
+        return retrofit.create(TmdbApiService::class.java)
     }
 }
