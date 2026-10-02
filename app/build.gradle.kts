@@ -17,13 +17,13 @@ plugins {
 }
 
 android {
-    namespace = "com.raye.tmdbapp"
+    namespace = "com.raye.cineverse"
     compileSdk {
         version = release(37)
     }
 
     defaultConfig {
-        applicationId = "com.raye.tmdbapp"
+        applicationId = "com.raye.cineverse"
         minSdk = 24
         targetSdk = 37
         versionCode = 1
