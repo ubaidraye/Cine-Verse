@@ -17,6 +17,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.CircularProgressIndicator
@@ -112,7 +114,7 @@ fun DetailScreen(
                                 )
                         )
 
-                        // Back Button
+                        // Back Button + Watch List Button
                         IconButton(
                             onClick = onBackClick,
                             modifier = Modifier
@@ -124,6 +126,20 @@ fun DetailScreen(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = "Back",
                                 tint = Color.White
+                            )
+                        }
+
+                        IconButton(
+                            onClick = { viewModel.toggleWatchList(movie, state.isWatchListed) },
+                            modifier = Modifier
+                                .statusBarsPadding()
+                                .padding(8.dp)
+                                .align(Alignment.TopEnd)
+                        ) {
+                            Icon(
+                                imageVector = if (state.isWatchListed) Icons.Default.Bookmark else Icons.Default.BookmarkBorder,
+                                contentDescription = "WatchList",
+                                tint = if (state.isWatchListed) MaterialTheme.colorScheme.primary else Color.White
                             )
                         }
 

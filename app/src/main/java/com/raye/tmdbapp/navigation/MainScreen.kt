@@ -20,6 +20,7 @@ import androidx.navigation.navArgument
 import com.raye.tmdbapp.presentation.detail.DetailScreen
 import com.raye.tmdbapp.presentation.home.HomeScreen
 import com.raye.tmdbapp.presentation.search.SearchScreen
+import com.raye.tmdbapp.presentation.watchlist.WatchListScreen
 
 @Composable
 fun MainScreen() {
@@ -30,7 +31,8 @@ fun MainScreen() {
 
     val bottomNavigationItems = listOf(
         Screen.Home,
-        Screen.Search
+        Screen.Search,
+        Screen.Watchlist
     )
 
     val onMovieClick: (Long) -> Unit = { movieId ->
@@ -82,6 +84,12 @@ fun MainScreen() {
                 route = Screen.Search.route
             ) {
                 SearchScreen(onMovieClick = onMovieClick)
+            }
+
+            composable(
+                route = Screen.Watchlist.route
+            ) {
+                WatchListScreen(onMovieClick = onMovieClick)
             }
         }
     }

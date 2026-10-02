@@ -3,6 +3,7 @@ package com.raye.tmdbapp.presentation.detail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.raye.tmdbapp.domain.model.MovieDetails
 import com.raye.tmdbapp.domain.repository.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,16 +36,28 @@ class DetailViewModel @Inject constructor(
 
             repository.getMovieDetails(id)
                 .onSuccess { details ->
-                    _uiState.value = DetailUiState.Success(
-                        movieDetails = details,
-                    )
-
+                    repository.isWatchListed(id).collect { isWatchListed ->
+                        _uiState.value = DetailUiState.Success(
+                            movieDetails = details,
+                            isWatchListed = isWatchListed
+                        )
+                    }
                 }
                 .onFailure { exception ->
                     _uiState.value = DetailUiState.Error(
                         exception.localizedMessage ?: "Failed to load details"
                     )
                 }
+        }
+    }
+
+    fun toggleWatchList(movieDetails: MovieDetails, isWatchListed: Boolean) {
+        viewModelScope.launch {
+            if (isWatchListed) {
+                repository.removeFromWatchList(movieDetails.id)
+            } else {
+                repository.addToWatchList(movieDetails)
+            }
         }
     }
 }
