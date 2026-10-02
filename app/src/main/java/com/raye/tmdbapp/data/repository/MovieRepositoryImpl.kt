@@ -46,7 +46,7 @@ class MovieRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun searchMovie(
+    override suspend fun searchMovies(
         query: String,
         page: Int
     ): Result<List<Movie>> {

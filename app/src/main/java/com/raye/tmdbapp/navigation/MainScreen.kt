@@ -19,6 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.raye.tmdbapp.presentation.detail.DetailScreen
 import com.raye.tmdbapp.presentation.home.HomeScreen
+import com.raye.tmdbapp.presentation.search.SearchScreen
 
 @Composable
 fun MainScreen() {
@@ -28,7 +29,8 @@ fun MainScreen() {
     val currentRoute = navBackStackEntry?.destination?.route
 
     val bottomNavigationItems = listOf(
-        Screen.Home
+        Screen.Home,
+        Screen.Search
     )
 
     val onMovieClick: (Long) -> Unit = { movieId ->
@@ -74,6 +76,12 @@ fun MainScreen() {
                 )
             ) {
                 DetailScreen(onBackClick = { navController.popBackStack() })
+            }
+
+            composable(
+                route = Screen.Search.route
+            ) {
+                SearchScreen(onMovieClick = onMovieClick)
             }
         }
     }

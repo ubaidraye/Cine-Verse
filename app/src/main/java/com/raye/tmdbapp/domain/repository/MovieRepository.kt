@@ -13,7 +13,7 @@ interface MovieRepository {
 
     suspend fun getUpcomingMovies(page: Int = 1): Result<List<Movie>>
 
-    suspend fun searchMovie(query: String, page: Int = 1): Result<List<Movie>>
+    suspend fun searchMovies(query: String, page: Int = 1): Result<List<Movie>>
 
     suspend fun getMovieDetails(movieId: Long): Result<MovieDetails>
 }
