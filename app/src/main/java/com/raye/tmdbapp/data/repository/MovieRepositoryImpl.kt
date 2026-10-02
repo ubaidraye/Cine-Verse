@@ -1,17 +1,22 @@
 package com.raye.tmdbapp.data.repository
 
+import com.raye.tmdbapp.data.local.dao.WatchListDao
 import com.raye.tmdbapp.data.mapper.findYoutubeTrailerKey
 import com.raye.tmdbapp.data.mapper.toDomain
+import com.raye.tmdbapp.data.mapper.toEntity
 import com.raye.tmdbapp.data.remote.api.TmdbApiService
 import com.raye.tmdbapp.domain.model.Movie
 import com.raye.tmdbapp.domain.model.MovieDetails
 import com.raye.tmdbapp.domain.repository.MovieRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
-    private val apiService: TmdbApiService
+    private val apiService: TmdbApiService,
+    private val watchListDao: WatchListDao
 ) : MovieRepository {
 
     override suspend fun getTrendingMovies(page: Int): Result<List<Movie>> {
@@ -71,6 +76,24 @@ class MovieRepositoryImpl @Inject constructor(
                 val trailerKey = videosDto?.findYoutubeTrailerKey()
                 detailsDto.toDomain(trailerKey)
             }
+        }
+    }
+
+    override suspend fun addToWatchList(movie: MovieDetails) {
+        watchListDao.insertToWatchList(movie.toEntity())
+    }
+
+    override suspend fun removeFromWatchList(movieId: Long) {
+        watchListDao.removeFromWatchList(movieId)
+    }
+
+    override fun isWatchListed(movieId: Long): Flow<Boolean> {
+        return watchListDao.isWatchListed(movieId)
+    }
+
+    override fun getWatchListMovies(): Flow<List<Movie>> {
+        return watchListDao.getAllWatchListMovies().map { entities ->
+            entities.map { it.toDomain() }
         }
     }
 }

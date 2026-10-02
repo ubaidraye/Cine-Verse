@@ -1,5 +1,6 @@
 package com.raye.tmdbapp.data.mapper
 
+import com.raye.tmdbapp.data.local.entity.WatchListEntity
 import com.raye.tmdbapp.data.remote.dto.MovieDetailsDto
 import com.raye.tmdbapp.data.remote.dto.MovieDto
 import com.raye.tmdbapp.data.remote.dto.VideoResponseDto
@@ -44,4 +45,28 @@ fun VideoResponseDto.findYoutubeTrailerKey(): String? {
                 (videoDto.type.equals("Trailer", ignoreCase = true) ||
                         videoDto.type.equals("Teaser", ignoreCase = true))
     }?.key
+}
+
+
+fun MovieDetails.toEntity(): WatchListEntity {
+    return WatchListEntity(
+        id = id,
+        title = title,
+        posterUrl = posterUrl,
+        backdropUrl = backdropUrl,
+        rating = rating,
+        releaseDate = releaseDate,
+    )
+}
+
+fun WatchListEntity.toDomain(): Movie {
+    return Movie(
+        id = id,
+        title = title,
+        overview = "",
+        posterUrl = posterUrl,
+        backdropUrl = backdropUrl,
+        rating = rating,
+        releaseDate = releaseDate.orEmpty(),
+    )
 }
