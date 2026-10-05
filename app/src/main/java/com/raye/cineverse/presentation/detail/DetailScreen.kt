@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -42,6 +44,7 @@ import androidx.core.net.toUri
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
+import com.raye.cineverse.presentation.detail.components.ActorCard
 import java.util.Locale
 
 @Composable
@@ -161,7 +164,7 @@ fun DetailScreen(
                         }
                     }
 
-                    // Poster + Title + Rating
+                    // Poster + Title + Rating + Cast
                     Column(
                         modifier = Modifier.padding(16.dp)
                     ) {
@@ -227,6 +230,34 @@ fun DetailScreen(
                             style = MaterialTheme.typography.bodyLarge,
                             lineHeight = MaterialTheme.typography.bodyLarge.lineHeight * 1.3
                         )
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        // Cast
+                        if (movie.cast.isNotEmpty()) {
+                            Text(
+                                text = "Cast",
+                                style = MaterialTheme.typography.titleLarge,
+                                fontWeight = FontWeight.Bold
+                            )
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            LazyRow(
+                                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                            ) {
+
+                                items(
+                                    items = movie.cast,
+                                    key = { it.id }
+                                ) { actor ->
+
+                                    ActorCard(
+                                        cast = actor
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
             }
