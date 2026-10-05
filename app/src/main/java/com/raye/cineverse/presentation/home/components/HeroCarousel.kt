@@ -1,5 +1,6 @@
 package com.raye.cineverse.presentation.home.components
 
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +21,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,7 +34,9 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.raye.cineverse.domain.model.Movie
 import com.raye.cineverse.ui.theme.CineVerseTheme
+import kotlinx.coroutines.delay
 import java.util.Locale
+import kotlin.time.Duration.Companion.milliseconds
 
 
 @Composable
@@ -45,6 +49,20 @@ fun HeroCarousel(
     if (trendingMovies.isEmpty()) return
 
     val pagerState = rememberPagerState(pageCount = { trendingMovies.size })
+
+    LaunchedEffect(Unit) {
+        while (true) {
+            delay(3000.milliseconds)
+
+            if (!pagerState.isScrollInProgress) {
+                val nextPage = (pagerState.currentPage + 1) % trendingMovies.size
+                pagerState.animateScrollToPage(
+                    page = nextPage,
+                    animationSpec = tween(durationMillis = 800)
+                )
+            }
+        }
+    }
 
     Column(
         modifier = modifier.fillMaxWidth(),
