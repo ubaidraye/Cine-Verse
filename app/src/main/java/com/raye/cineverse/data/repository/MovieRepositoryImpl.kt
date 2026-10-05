@@ -69,12 +69,15 @@ class MovieRepositoryImpl @Inject constructor(
             coroutineScope {
                 val detailsDeferred = async { apiService.getMovieDetails(movieId = movieId) }
                 val videosDeferred = async { apiService.getMovieVideos(movieId = movieId) }
+                val creditsDeferred = async { apiService.getMovieCredits(movieId = movieId) }
 
                 val detailsDto = detailsDeferred.await()
                 val videosDto = runCatching { videosDeferred.await() }.getOrNull()
+                val creditsDto = runCatching { creditsDeferred.await() }.getOrNull()
 
                 val trailerKey = videosDto?.findYoutubeTrailerKey()
-                detailsDto.toDomain(trailerKey)
+                val castList = creditsDto?.cast?.map { it.toDomain() }
+                detailsDto.toDomain(trailerKey, cast = castList)
             }
         }
     }

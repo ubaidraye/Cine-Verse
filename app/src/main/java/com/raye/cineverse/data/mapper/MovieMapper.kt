@@ -1,12 +1,13 @@
 package com.raye.cineverse.data.mapper
 
 import com.raye.cineverse.data.local.entity.WatchListEntity
+import com.raye.cineverse.data.remote.dto.CastDto
 import com.raye.cineverse.data.remote.dto.MovieDetailsDto
 import com.raye.cineverse.data.remote.dto.MovieDto
 import com.raye.cineverse.data.remote.dto.VideoResponseDto
+import com.raye.cineverse.domain.model.Cast
 import com.raye.cineverse.domain.model.Movie
 import com.raye.cineverse.domain.model.MovieDetails
-import kotlin.text.orEmpty
 
 private const val IMAGE_BASE_URL_W500 = "https://image.tmdb.org/t/p/w500"
 private const val IMAGE_BASE_URL_W780 = "https://image.tmdb.org/t/p/w780"
@@ -23,7 +24,10 @@ fun MovieDto.toDomain(): Movie {
     )
 }
 
-fun MovieDetailsDto.toDomain(youtubeTrailerKey: String? = null): MovieDetails {
+fun MovieDetailsDto.toDomain(
+    youtubeTrailerKey: String? = null,
+    cast: List<Cast>?
+): MovieDetails {
     return MovieDetails(
         id = id,
         title = title.orEmpty(),
@@ -35,7 +39,8 @@ fun MovieDetailsDto.toDomain(youtubeTrailerKey: String? = null): MovieDetails {
         runtime = runtime ?: 0,
         tagline = tagline.orEmpty(),
         genres = genres?.map { it.name }.orEmpty(),
-        youtubeTrailerKey = youtubeTrailerKey
+        youtubeTrailerKey = youtubeTrailerKey,
+        cast = cast.orEmpty()
     )
 }
 
@@ -68,5 +73,14 @@ fun WatchListEntity.toDomain(): Movie {
         backdropUrl = backdropUrl,
         rating = rating,
         releaseDate = releaseDate.orEmpty(),
+    )
+}
+
+fun CastDto.toDomain(): Cast {
+    return Cast(
+        id = id,
+        name = name.orEmpty(),
+        character = character.orEmpty(),
+        profileUrl = profilePath?.let { "$IMAGE_BASE_URL_W500$it" }
     )
 }

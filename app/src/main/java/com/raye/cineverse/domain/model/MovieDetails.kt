@@ -11,5 +11,6 @@ data class MovieDetails(
     val runtime: Int,
     val tagline: String,
     val genres: List<String>,
-    val youtubeTrailerKey:String?
+    val youtubeTrailerKey: String?,
+    val cast: List<Cast> = emptyList()
 )

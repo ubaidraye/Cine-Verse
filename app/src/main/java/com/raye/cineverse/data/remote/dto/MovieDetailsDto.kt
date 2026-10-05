@@ -10,7 +10,8 @@ data class MovieDetailsDto(
     @SerializedName("backdrop_path") val backdropPath: String?,
     @SerializedName("vote_average") val voteAverage: Double?,
     @SerializedName("release_date") val releaseDate: String?,
-    val runtime:Int?,
-    val tagline:String?,
-    val genres: List<GenreDto>?
+    val runtime: Int?,
+    val tagline: String?,
+    val genres: List<GenreDto>?,
+    val cast: List<CastDto>?
 )

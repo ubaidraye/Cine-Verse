@@ -1,5 +1,6 @@
 package com.raye.cineverse.data.remote.api
 
+import com.raye.cineverse.data.remote.dto.MovieCreditsDto
 import com.raye.cineverse.data.remote.dto.MovieDetailsDto
 import com.raye.cineverse.data.remote.dto.MovieResponseDto
 import com.raye.cineverse.data.remote.dto.VideoResponseDto
@@ -44,4 +45,9 @@ interface TmdbApiService {
     suspend fun getMovieVideos(
         @Path("movie_id") movieId: Long
     ): VideoResponseDto
+
+    @GET("movie/{movie_id}/credits")
+    suspend fun getMovieCredits(
+        @Path("movie_id") movieId: Long
+    ): MovieCreditsDto
 }
