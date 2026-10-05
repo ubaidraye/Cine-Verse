@@ -16,6 +16,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -34,6 +35,8 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
+
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -70,40 +73,45 @@ fun HomeScreen(
                 }
 
                 is HomeUiState.Success -> {
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(vertical = 16.dp),
-                        verticalArrangement = Arrangement.spacedBy(24.dp)
+                    PullToRefreshBox(
+                        isRefreshing = isRefreshing,
+                        onRefresh = { viewModel.refreshHome() }
                     ) {
-                        item {
-                            HeroCarousel(
-                                trendingMovies = state.trendingMovies,
-                                onMovieClick = onMovieClick
-                            )
-                        }
+                        LazyColumn(
+                            modifier = Modifier.fillMaxSize(),
+                            contentPadding = PaddingValues(vertical = 16.dp),
+                            verticalArrangement = Arrangement.spacedBy(24.dp)
+                        ) {
+                            item {
+                                HeroCarousel(
+                                    trendingMovies = state.trendingMovies,
+                                    onMovieClick = onMovieClick
+                                )
+                            }
 
-                        item {
-                            MovieSectionRow(
-                                sectionTitle = "Popular Movies",
-                                movies = state.popularMovies,
-                                onMovieClick = onMovieClick
-                            )
-                        }
+                            item {
+                                MovieSectionRow(
+                                    sectionTitle = "Popular Movies",
+                                    movies = state.popularMovies,
+                                    onMovieClick = onMovieClick
+                                )
+                            }
 
-                        item {
-                            MovieSectionRow(
-                                sectionTitle = "Top Rated",
-                                movies = state.topRatedMovies,
-                                onMovieClick = onMovieClick
-                            )
-                        }
+                            item {
+                                MovieSectionRow(
+                                    sectionTitle = "Top Rated",
+                                    movies = state.topRatedMovies,
+                                    onMovieClick = onMovieClick
+                                )
+                            }
 
-                        item {
-                            MovieSectionRow(
-                                sectionTitle = "Upcoming",
-                                movies = state.upcomingMovies,
-                                onMovieClick = onMovieClick
-                            )
+                            item {
+                                MovieSectionRow(
+                                    sectionTitle = "Upcoming",
+                                    movies = state.upcomingMovies,
+                                    onMovieClick = onMovieClick
+                                )
+                            }
                         }
                     }
                 }
