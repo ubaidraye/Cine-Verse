@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.raye.cineverse.domain.model.MovieDetails
 import com.raye.cineverse.domain.repository.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -34,12 +35,24 @@ class DetailViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.value = DetailUiState.Loading
 
+            val recommendationsDeferred = async {
+                repository.getMovieRecommendations(movieId = id).getOrDefault(emptyList())
+            }
+            val similarDeferred = async {
+                repository.getSimilarMovies(movieId = id).getOrDefault(emptyList())
+            }
+
             repository.getMovieDetails(id)
                 .onSuccess { details ->
+                    val recommendations = recommendationsDeferred.await()
+                    val similar = similarDeferred.await()
+
                     repository.isWatchListed(id).collect { isWatchListed ->
                         _uiState.value = DetailUiState.Success(
                             movieDetails = details,
-                            isWatchListed = isWatchListed
+                            isWatchListed = isWatchListed,
+                            recommendations = recommendations,
+                            similar = similar
                         )
                     }
                 }

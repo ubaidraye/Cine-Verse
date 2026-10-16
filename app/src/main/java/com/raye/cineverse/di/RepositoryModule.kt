@@ -14,5 +14,5 @@ interface RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindMovieRepository(impl: MovieRepositoryImpl): MovieRepository
+    fun bindMovieRepository(impl: MovieRepositoryImpl): MovieRepository
 }

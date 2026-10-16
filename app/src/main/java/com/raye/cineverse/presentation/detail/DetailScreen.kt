@@ -45,11 +45,13 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.raye.cineverse.presentation.detail.components.ActorCard
+import com.raye.cineverse.presentation.home.components.MovieSectionRow
 import java.util.Locale
 
 @Composable
 fun DetailScreen(
     onBackClick: () -> Unit,
+    onMovieClick: (movieId: Long) -> Unit = {},
     viewModel: DetailViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -259,6 +261,33 @@ fun DetailScreen(
                             }
                         }
                     }
+
+                    // Movie Recommendations
+                    if (state.recommendations.isNotEmpty()) {
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        MovieSectionRow(
+                            sectionTitle = "You might also like",
+                            movies = state.recommendations,
+                            onMovieClick = onMovieClick
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(32.dp))
+
+
+                    // Similar Movies
+                    if (state.similar.isNotEmpty()) {
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        MovieSectionRow(
+                            sectionTitle = "Similar movies",
+                            movies = state.similar,
+                            onMovieClick = onMovieClick
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(32.dp))
                 }
             }
         }

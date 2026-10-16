@@ -25,4 +25,8 @@ interface MovieRepository {
     fun isWatchListed(movieId: Long): Flow<Boolean>
 
     fun getWatchListMovies(): Flow<List<Movie>>
+
+    suspend fun getMovieRecommendations(movieId: Long, page: Int = 1): Result<List<Movie>>
+
+    suspend fun getSimilarMovies(movieId: Long, page: Int = 1): Result<List<Movie>>
 }

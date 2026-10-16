@@ -77,7 +77,10 @@ fun MainScreen() {
                     navArgument("movieId") { type = NavType.LongType }
                 )
             ) {
-                DetailScreen(onBackClick = { navController.popBackStack() })
+                DetailScreen(
+                    onBackClick = { navController.popBackStack() },
+                    onMovieClick = onMovieClick
+                )
             }
 
             composable(

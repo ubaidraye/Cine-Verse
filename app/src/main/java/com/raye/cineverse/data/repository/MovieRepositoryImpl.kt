@@ -99,4 +99,20 @@ class MovieRepositoryImpl @Inject constructor(
             entities.map { it.toDomain() }
         }
     }
+
+    override suspend fun getMovieRecommendations(movieId: Long, page: Int): Result<List<Movie>> {
+        return runCatching {
+            apiService.getMovieRecommendations(movieId = movieId, page = page).results.map {
+                it.toDomain()
+            }
+        }
+    }
+
+    override suspend fun getSimilarMovies(movieId: Long, page: Int): Result<List<Movie>> {
+        return runCatching {
+            apiService.getSimilarMovies(movieId = movieId, page = page).results.map {
+                it.toDomain()
+            }
+        }
+    }
 }

@@ -50,4 +50,16 @@ interface TmdbApiService {
     suspend fun getMovieCredits(
         @Path("movie_id") movieId: Long
     ): MovieCreditsDto
+
+    @GET("movie/{movie_id}/recommendations")
+    suspend fun getMovieRecommendations(
+        @Path("movie_id") movieId: Long,
+        @Query("page") page: Int = 1
+    ): MovieResponseDto
+
+    @GET("movie/{movie_id}/similar")
+    suspend fun getSimilarMovies(
+        @Path("movie_id") movieId: Long,
+        @Query("page") page: Int = 1
+    ): MovieResponseDto
 }
