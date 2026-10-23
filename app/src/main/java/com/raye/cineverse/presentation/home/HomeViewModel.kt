@@ -3,6 +3,7 @@ package com.raye.cineverse.presentation.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.raye.cineverse.domain.repository.MovieRepository
+import com.raye.cineverse.util.toUserFriendlyMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -57,7 +58,7 @@ class HomeViewModel @Inject constructor(
 
             if (failure != null) {
                 _uiState.value = HomeUiState.Error(
-                    failure.exceptionOrNull()?.localizedMessage ?: "Failed to load home feed"
+                    failure.exceptionOrNull()?.toUserFriendlyMessage() ?: "Failed to load home feed"
                 )
             } else {
                 _uiState.value = HomeUiState.Success(
