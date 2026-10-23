@@ -31,6 +31,12 @@ class DetailViewModel @Inject constructor(
         }
     }
 
+    fun retry() {
+        movieId?.let { id ->
+            loadMovieDetail(id)
+        }
+    }
+
     fun loadMovieDetail(id: Long) {
         viewModelScope.launch {
             _uiState.value = DetailUiState.Loading

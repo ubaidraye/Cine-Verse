@@ -45,6 +45,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.raye.cineverse.presentation.detail.components.ActorCard
+import com.raye.cineverse.presentation.home.components.ErrorContent
 import com.raye.cineverse.presentation.home.components.MovieSectionRow
 import java.util.Locale
 
@@ -71,15 +72,14 @@ fun DetailScreen(
             }
 
             is DetailUiState.Error -> {
-                Column(
-                    modifier = Modifier.align(Alignment.Center),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = state.message,
-                        color = MaterialTheme.colorScheme.error
-                    )
-                }
+
+                ErrorContent(
+                    message = state.message,
+                    onRetry = viewModel::retry,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                )
             }
 
             is DetailUiState.Success -> {
