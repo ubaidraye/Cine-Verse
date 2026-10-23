@@ -9,8 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -24,7 +23,6 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.raye.cineverse.presentation.home.components.MovieCard
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WatchListScreen(
     onMovieClick: (movieId: Long) -> Unit = {},
@@ -42,7 +40,7 @@ fun WatchListScreen(
         Box(modifier = Modifier.fillMaxSize()) {
             when (val state = uiState) {
                 is WatchListUiState.Loading -> {
-                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                    CircularWavyProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 }
 
                 is WatchListUiState.Empty -> {

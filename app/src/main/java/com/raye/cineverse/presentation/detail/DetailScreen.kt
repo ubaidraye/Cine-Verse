@@ -23,7 +23,7 @@ import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.AssistChip
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -66,7 +66,7 @@ fun DetailScreen(
     Box(modifier = Modifier.fillMaxSize()) {
         when (val state = uiState) {
             is DetailUiState.Loading -> {
-                CircularProgressIndicator(
+                CircularWavyProgressIndicator(
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
