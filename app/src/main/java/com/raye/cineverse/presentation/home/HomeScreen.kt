@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.raye.cineverse.navigation.MovieCategory
 import com.raye.cineverse.presentation.home.components.ErrorContent
 import com.raye.cineverse.presentation.home.components.HomeContent
 
@@ -28,6 +29,7 @@ import com.raye.cineverse.presentation.home.components.HomeContent
 fun HomeScreen(
     onMovieClick: (movieId: Long) -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel(),
+    onSeeAllClick: (MovieCategory) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
@@ -79,7 +81,8 @@ fun HomeScreen(
                         popularMovies = state.popularMovies,
                         topRatedMovies = state.topRatedMovies,
                         upcomingMovies = state.upcomingMovies,
-                        onMovieClick = onMovieClick
+                        onMovieClick = onMovieClick,
+                        onSeeAllClick = onSeeAllClick
                     )
                 }
             }

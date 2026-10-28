@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.raye.cineverse.domain.model.Movie
+import com.raye.cineverse.navigation.MovieCategory
 
 @Composable
 fun HomeContent(
@@ -16,7 +17,8 @@ fun HomeContent(
     popularMovies: List<Movie>,
     topRatedMovies: List<Movie>,
     upcomingMovies: List<Movie>,
-    onMovieClick: (movieId: Long) -> Unit = {}
+    onMovieClick: (movieId: Long) -> Unit = {},
+    onSeeAllClick: (category: MovieCategory) -> Unit
 ) {
     LazyColumn(
         modifier = modifier.fillMaxSize(),
@@ -34,7 +36,8 @@ fun HomeContent(
             MovieSectionRow(
                 sectionTitle = "Popular Movies",
                 movies = popularMovies,
-                onMovieClick = onMovieClick
+                onMovieClick = onMovieClick,
+                onSeeAllClick = { onSeeAllClick(MovieCategory.POPULAR) }
             )
         }
 
@@ -42,7 +45,8 @@ fun HomeContent(
             MovieSectionRow(
                 sectionTitle = "Top Rated",
                 movies = topRatedMovies,
-                onMovieClick = onMovieClick
+                onMovieClick = onMovieClick,
+                onSeeAllClick = { onSeeAllClick(MovieCategory.TOP_RATED) }
             )
         }
 
@@ -50,7 +54,8 @@ fun HomeContent(
             MovieSectionRow(
                 sectionTitle = "Upcoming",
                 movies = upcomingMovies,
-                onMovieClick = onMovieClick
+                onMovieClick = onMovieClick,
+                onSeeAllClick = { onSeeAllClick(MovieCategory.UPCOMING) }
             )
         }
     }

@@ -17,6 +17,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.raye.cineverse.presentation.category.CategoryScreen
 import com.raye.cineverse.presentation.detail.DetailScreen
 import com.raye.cineverse.presentation.home.HomeScreen
 import com.raye.cineverse.presentation.search.SearchScreen
@@ -37,6 +38,12 @@ fun MainScreen() {
 
     val onMovieClick: (Long) -> Unit = { movieId ->
         navController.navigate(Screen.Detail.createRoute(movieId))
+    }
+
+    val onBackClick: () -> Unit = { navController.popBackStack() }
+
+    val onSeeAllClick: (MovieCategory) -> Unit = { category ->
+        navController.navigate(Screen.Category.createRoute(category))
     }
 
     Scaffold(
@@ -69,7 +76,7 @@ fun MainScreen() {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(Screen.Home.route) {
-                HomeScreen(onMovieClick = onMovieClick)
+                HomeScreen(onMovieClick = onMovieClick, onSeeAllClick = onSeeAllClick)
             }
             composable(
                 route = Screen.Detail.route,
@@ -78,7 +85,17 @@ fun MainScreen() {
                 )
             ) {
                 DetailScreen(
-                    onBackClick = { navController.popBackStack() },
+                    onBackClick = onBackClick,
+                    onMovieClick = onMovieClick
+                )
+            }
+
+            composable(
+                route = Screen.Category.route,
+                arguments = listOf(navArgument("categoryType") { type = NavType.StringType })
+            ) {
+                CategoryScreen(
+                    onBackClick = onBackClick,
                     onMovieClick = onMovieClick
                 )
             }
